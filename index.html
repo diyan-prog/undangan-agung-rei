@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Undangan Pernikahan</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #fff5f5;
+        font-family: "Montserrat", sans-serif;
+        color: #4a4a4a;
+        line-height: 1.6;
+      }
+      .welcome-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #f5e6e6 0%, #fff5f5 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+      }
+
+      .envelope {
+        position: relative;
+        width: 90%;
+        max-width: 500px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        aspect-ratio: 4/3;
+      }
+
+      .envelope::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background: linear-gradient(45deg, #c17c74, #e3b5b0);
+        border-radius: 25px;
+        z-index: -1;
+      }
+
+      .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #d4a5a0 0%, #c17c74 100%);
+        clip-path: polygon(0 0, 50% 50%, 100% 0);
+        transform-origin: top;
+        transition: transform 0.5s ease;
+        z-index: 1;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .envelope:hover .envelope-flap {
+        transform: rotateX(180deg);
+      }
+
+      .envelope-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .invitation-card {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to bottom, #fff8f8, #fff);
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .card-content h2 {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(1.5em, 4vw, 2em);
+        color: #c17c74;
+        margin: 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-content h1 {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(2em, 6vw, 3em);
+        color: #a65d57;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        line-height: 1.2;
+      }
+
+      .ornament-divider {
+        font-size: clamp(1.5em, 4vw, 2em);
+        color: #c17c74;
+        margin: 10px 0;
+        line-height: 1;
+      }
+
+      .welcome-button {
+        background: linear-gradient(135deg, #c17c74, #a65d57);
+        color: white;
+        border: none;
+        padding: clamp(12px, 3vw, 15px) clamp(30px, 6vw, 40px);
+        border-radius: 30px;
+        font-size: clamp(0.9em, 2.5vw, 1.1em);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: -10px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(193, 124, 116, 0.3);
+      }
+
+      .hero {
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+          url("img/foto1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(3px);
+      }
+
+      .hero-content {
+        position: relative;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .hero h1 {
+        font-family: "Great Vibes", cursive;
+        font-size: 4em;
+        margin-bottom: 20px;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero p {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        font-weight: 300;
+      }
+
+      .countdown {
+        margin: 30px 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .countdown-item {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 20px;
+        border-radius: 15px;
+        min-width: 120px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .countdown-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .countdown-number {
+        font-size: 2.5em;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .section {
+        padding: 100px 20px;
+        text-align: center;
+      }
+
+      .section h2 {
+        font-family: "Great Vibes", cursive;
+        font-size: 3em;
+        color: #c17c74;
+        margin-bottom: 40px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .couple {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        flex-wrap: wrap;
+        margin: 40px 0;
+      }
+
+      .person {
+        flex: 1;
+        min-width: 300px;
+        max-width: 400px;
+        padding: 30px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .person:hover {
+        transform: translateY(-10px);
+      }
+
+      .person img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .person h3 {
+        font-size: 1.8em;
+        color: #c17c74;
+        margin-bottom: 10px;
+      }
+
+      .event-details {
+        background-color: white;
+        padding: 50px;
+        border-radius: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .event-item {
+        margin: 30px 0;
+        padding: 20px;
+        border-radius: 15px;
+        background: #fff5f5;
+      }
+
+      .event-item h3 {
+        color: #c17c74;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 15px 40px;
+        background-color: #c17c74;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        margin-top: 30px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(193, 124, 116, 0.3);
+      }
+
+      .btn:hover {
+        background-color: #a65d57;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(193, 124, 116, 0.4);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .gallery img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      @media (max-width: 1024px) {
+        .hero h1 {
+          font-size: 3em;
+        }
+
+        .hero p {
+          font-size: 1em;
+        }
+
+        .countdown-number {
+          font-size: 2em;
+        }
+
+        .section h2 {
+          font-size: 2.5em;
+        }
+
+        .person h3 {
+          font-size: 1.6em;
+        }
+
+        .event-item h3 {
+          font-size: 1.4em;
+        }
+
+        .btn {
+          padding: 10px 30px;
+          font-size: 1em;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          height: auto;
+          padding: 40px 20px;
+          background-attachment: scroll;
+        }
+
+        .hero h1 {
+          font-size: 2em;
+        }
+
+        .hero-content {
+          padding: 20px;
+        }
+
+        .countdown {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .countdown-item {
+          min-width: 100px;
+          padding: 10px;
+        }
+
+        .section h2 {
+          font-size: 2em;
+          margin-bottom: 20px;
+        }
+
+        .couple {
+          flex-direction: column;
+          gap: 20px;
+        }
+        .envelope {
+          width: 95%;
+          max-width: 400px;
+        }
+
+        .event-details {
+          padding: 20px;
+        }
+
+        .gallery {
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 1.5em;
+        }
+
+        .hero p {
+          font-size: 0.9em;
+        }
+
+        .countdown-number {
+          font-size: 1.5em;
+        }
+
+        .section h2 {
+          font-size: 1.8em;
+        }
+
+        .person {
+          padding: 15px;
+        }
+
+        .person h3 {
+          font-size: 1.4em;
+        }
+
+        .gallery img {
+          height: 200px;
+        }
+        .envelope {
+          width: 95%;
+          max-width: 320px;
+        }
+
+        .card-content {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="envelope">
+        <div class="envelope-flap"></div>
+        <div class="envelope-content">
+          <div class="invitation-card">
+            <div class="card-content">
+              <h2>The Wedding of</h2>
+              <h1>Eka & Reinayla</h1>
+              <div class="ornament-divider">❦</div>
+              <button class="welcome-button" onclick="openInvitation()">
+                <span>Buka Undangan</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="bgMusic" loop>
+      <source src="1.mp3" type="audio/mp3" />
+    </audio>
+
+    <div class="hero">
+      <div class="ornament ornament-1"></div>
+      <div class="ornament ornament-2"></div>
+      <div class="hero-content" data-aos="fade-up">
+        <p
+          style="
+            font-family: 'Great Vibes', cursive;
+            font-size: 2em;
+            margin-bottom: 20px;
+          "
+        >
+          The Wedding of
+        </p>
+        <h1>Eka & Reinayla</h1>
+        <p>Kami mengundang Anda untuk merayakan hari bahagia kami</p>
+        <p style="font-size: 1.4em; margin: 20px 0">Sabtu, 26 Oktober 2024</p>
+        <div class="countdown">
+          <div class="countdown-item floating">
+            <div class="countdown-number" id="days">00</div>
+            <div>Hari</div>
+          </div>
+          <div class="countdown-item floating" style="animation-delay: 0.2s">
+            <div class="countdown-number" id="hours">00</div>
+            <div>Jam</div>
+          </div>
+          <div class="countdown-item floating" style="animation-delay: 0.4s">
+            <div class="countdown-number" id="minutes">00</div>
+            <div>Menit</div>
+          </div>
+          <div class="countdown-item floating" style="animation-delay: 0.6s">
+            <div class="countdown-number" id="seconds">00</div>
+            <div>Detik</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-aos="fade-up">Mempelai</h2>
+      <div class="couple">
+        <div class="person" data-aos="fade-right">
+          <h3>Eka Agung Prasetia</h3>
+          <p>Putra dari<br />Bpk. Abdullah & Ibu Aminah</p>
+        </div>
+        <div class="person" data-aos="fade-left">
+          <h3>Reinayla Amaria</h3>
+          <p>Putri dari<br />Bpk. Rahman & Ibu Siti</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="background-color: #fff5f5">
+      <h2 data-aos="fade-up">Detail Acara</h2>
+      <div class="event-details" data-aos="fade-up">
+        <div class="event-item">
+          <h3>Akad Nikah</h3>
+          <p>09:00 WIB - 11:00 WIB</p>
+        </div>
+        <div class="event-item">
+          <h3>Resepsi</h3>
+          <p>13:00 WIB - 21:00 WIB</p>
+        </div>
+        <div class="event-item">
+          <h3>Lokasi</h3>
+          <p>SKY at AYANA Resort</p>
+          <p>
+            AYANA Resort and Spa, BALI, Jl. Karang Mas Sejahtera, Jimbaran,
+            South Kuta, Badung Regency, Bali 80364
+          </p>
+        </div>
+        <a href="https://maps.app.goo.gl/EXXEqPG1ma6k6QU17" class="btn"
+          >Lihat Lokasi di Maps</a
+        >
+      </div>
+      <!-- Map Embed -->
+      <div
+        style="
+          width: 100%;
+          height: 400px;
+          margin: 20px 0;
+          border-radius: 15px;
+          overflow: hidden;
+        "
+      >
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.6566745678417!2d115.16033161468687!3d-8.790353793673873!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd240d8d743c523%3A0x8fc8a9b5d0834ed7!2sAYANA%20Resort%20and%20Spa%2C%20BALI!5e0!3m2!1sen!2sid!4v1698237238967!5m2!1sen!2sid"
+          width="100%"
+          height="100%"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-aos="fade-up">Galeri Foto</h2>
+      <div class="gallery">
+        <img
+          src="img/foto2.jpg"
+          alt="Foto 1"
+          data-aos="zoom-in"
+          data-aos-delay="100"
+        />
+        <img
+          src="img/foto3.jpg"
+          alt="Foto 2"
+          data-aos="zoom-in"
+          data-aos-delay="200"
+        />
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      let isPlaying = false;
+      const bgMusic = document.getElementById("bgMusic");
+      const musicIcon = document.getElementById("musicIcon");
+      const welcomeScreen = document.getElementById("welcomeScreen");
+
+      function toggleMusic() {
+        if (isPlaying) {
+          bgMusic.pause();
+          musicIcon.className = "fas fa-music";
+        } else {
+          bgMusic.play();
+          musicIcon.className = "fas fa-pause";
+        }
+        isPlaying = !isPlaying;
+      }
+
+      function openInvitation() {
+        welcomeScreen.style.opacity = "0";
+        setTimeout(() => {
+          welcomeScreen.style.display = "none";
+          // Auto play music after user interaction
+          bgMusic.play();
+          isPlaying = true;
+          musicIcon.className = "fas fa-pause";
+        }, 500);
+      }
+
+      // Initialize AOS
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
+
+      // Countdown Timer
+      const weddingDate = new Date("oct 26, 2024 09:00:00").getTime();
+
+      const countdown = setInterval(function () {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("hours").innerHTML = hours
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("minutes").innerHTML = minutes
+          .toString()
+          .padStart(2, "0");
+        document.getElementById("seconds").innerHTML = seconds
+          .toString()
+          .padStart(2, "0");
+
+        if (distance < 0) {
+          clearInterval(countdown);
+          document.getElementById("countdown").innerHTML =
+            "Acara telah selesai";
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
